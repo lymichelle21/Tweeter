@@ -36,7 +36,8 @@ public class Tweet {
             Log.d("TWEET", "No pic");
             tweet.tweet_URL = "none";
         } else {
-            Log.d("TWEET HAS PIC", jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url"));
+            tweet.tweet_URL = jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url_https");
+            Log.d("TWEET HAS PIC", jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url_https"));
         }
         return tweet;
     }
