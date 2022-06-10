@@ -45,6 +45,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         return new ViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Tweet tweet = tweets.get(position);

@@ -46,8 +46,8 @@ public class TimelineActivity extends AppCompatActivity {
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
         rvTweets.setAdapter(adapter);
-        rvTweets.setLayoutManager(new LinearLayoutManager(this));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rvTweets.setLayoutManager(linearLayoutManager);
 
         populateHomeTimeline();
 
@@ -55,7 +55,6 @@ public class TimelineActivity extends AppCompatActivity {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //Toast.makeText(TimelineActivity.this, "Refreshing", Toast.LENGTH_LONG).show();
                 fetchTimelineAsync(0);
             }
         });
@@ -68,7 +67,8 @@ public class TimelineActivity extends AppCompatActivity {
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Toast.makeText(TimelineActivity.this, "Sorry, your tweet cannot be empty", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Trying to load more");
+                loadNextDataFromApi(tweets.get(tweets.size()-1).id);
             }
         };
 
@@ -157,5 +157,24 @@ public class TimelineActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void loadNextDataFromApi(long id) {
+        client.getEndlessTimeline(id, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                try {
+                    adapter.addAll(Tweet.fromJsonArray(json.jsonArray));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Toast.makeText(TimelineActivity.this, "Failed to get more tweets", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 }

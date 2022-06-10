@@ -26,31 +26,20 @@ public class TimeFormat {
             long time = sf.parse(rawJsonDate).getTime();
             long now = System.currentTimeMillis();
 
-            Log.d(TAG, "Curr time" + now);
-            Log.d(TAG, "Tweet time" + time);
-            Log.d(TAG, "Time Difference " + (now - time));
-
             final long diff = now - time;
             if (diff < MINUTE_MILLIS) {
-                Log.d(TAG, "just now");
                 return "just now";
             } else if (diff < 2 * MINUTE_MILLIS) {
-                Log.d(TAG, "a min ago");
                 return "a minute ago";
             } else if (diff < 50 * MINUTE_MILLIS) {
-                Log.d(TAG, "a min ago");
                 return diff / MINUTE_MILLIS + " m";
             } else if (diff < 90 * MINUTE_MILLIS) {
-                Log.d(TAG, "an hour ago");
                 return "an hour ago";
             } else if (diff < 24 * HOUR_MILLIS) {
-                Log.d(TAG, "yeet");
                 return diff / HOUR_MILLIS + " h";
             } else if (diff < 48 * HOUR_MILLIS) {
-                Log.d(TAG, "yeet");
                 return "yesterday";
             } else {
-                Log.d(TAG, "yeet");
                 return diff / DAY_MILLIS + " d";
             }
         } catch (ParseException e) {

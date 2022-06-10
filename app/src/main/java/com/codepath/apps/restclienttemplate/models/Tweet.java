@@ -16,6 +16,7 @@ public class Tweet {
     public String createdAt;
     public User user;
     public String tweet_URL;
+    public Long id;
 
     public Tweet() {
     }
@@ -28,6 +29,7 @@ public class Tweet {
             tweet.body = jsonObject.getString("text");
         }
         tweet.createdAt = jsonObject.getString("created_at");
+        tweet.id = jsonObject.getLong("id");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         if (!jsonObject.getJSONObject("entities").has("media")) {
             tweet.tweet_URL = "";
