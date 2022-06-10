@@ -1,11 +1,5 @@
 package com.codepath.apps.restclienttemplate;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +7,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.codepath.apps.restclienttemplate.models.Tweet;
-import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -35,6 +34,7 @@ public class TimelineActivity extends AppCompatActivity {
     List<Tweet> tweets;
     TweetsAdapter adapter;
     private SwipeRefreshLayout swipeContainer;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,7 @@ public class TimelineActivity extends AppCompatActivity {
         adapter = new TweetsAdapter(this, tweets);
         rvTweets.setAdapter(adapter);
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
         populateHomeTimeline();
 
@@ -63,6 +64,15 @@ public class TimelineActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Toast.makeText(TimelineActivity.this, "Sorry, your tweet cannot be empty", Toast.LENGTH_LONG).show();
+            }
+        };
+
+        rvTweets.addOnScrollListener(scrollListener);
     }
 
     private void populateHomeTimeline() {
@@ -79,7 +89,6 @@ public class TimelineActivity extends AppCompatActivity {
                     Log.e(TAG, "Json exception", e);
                     e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -142,8 +151,10 @@ public class TimelineActivity extends AppCompatActivity {
                 }
                 swipeContainer.setRefreshing(false);
             }
+
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.d("DEBUG", "Fetch timeline error: " + throwable.toString());
+                Toast.makeText(TimelineActivity.this, "Failed to refresh", Toast.LENGTH_LONG).show();
+
             }
         });
     }

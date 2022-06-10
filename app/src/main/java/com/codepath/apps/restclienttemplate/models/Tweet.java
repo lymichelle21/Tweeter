@@ -2,8 +2,6 @@ package com.codepath.apps.restclienttemplate.models;
 
 import android.util.Log;
 
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,11 +31,9 @@ public class Tweet {
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         if (!jsonObject.getJSONObject("entities").has("media")) {
-            Log.d("TWEET", "No pic");
             tweet.tweet_URL = "";
         } else {
             tweet.tweet_URL = jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url_https");
-            Log.d("TWEET HAS PIC", jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url_https"));
         }
         return tweet;
     }
