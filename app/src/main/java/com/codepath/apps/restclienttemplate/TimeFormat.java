@@ -10,12 +10,11 @@ import java.text.ParseException;
 import java.util.Locale;
 
 public class TimeFormat {
-    public static String TAG = "TimeFormat";
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
-
+    public static String TAG = "TimeFormat";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static String getRelativeTimeAgo(String rawJsonDate) {
@@ -29,7 +28,7 @@ public class TimeFormat {
 
             Log.d(TAG, "Curr time" + now);
             Log.d(TAG, "Tweet time" + time);
-            Log.d(TAG,"Time Difference "+(now-time));
+            Log.d(TAG, "Time Difference " + (now - time));
 
             final long diff = now - time;
             if (diff < MINUTE_MILLIS) {
