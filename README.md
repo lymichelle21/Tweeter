@@ -53,7 +53,7 @@ Here's a walkthrough of implemented user stories:
 
 <img src='https://media.giphy.com/media/1zSY4uLVI0AwiPzvez/giphy.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-GIF created with [Kap](https://getkap.co/).
+GIF created with [GIPHY](https://giphy.com/).
 
 ## Notes
 
