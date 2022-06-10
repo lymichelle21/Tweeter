@@ -78,6 +78,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName.setText(tweet.user.screenName);
             Glide.with(context).load(tweet.user.profileImageUrl).transform(new RoundedCorners(100)).into(ivProfileImage);
             Glide.with(context).load(tweet.tweet_URL).into(ivImage);
+            //Glide.with(context).load(tweet.tweet_URL).transform(new RoundedCorners(100)).into(ivImage);
         }
     }
 
